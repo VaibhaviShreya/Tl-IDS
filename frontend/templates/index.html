@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TL-IDS — Transfer Learning Intrusion Detection System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-left">
+    <div class="nav-logo">IDS</div>
+    <div>
+      <div class="nav-brand">TL-IDS SYSTEM</div>
+      <div class="nav-sub">Transfer Learning · WSN · Cross-Domain</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+    <button class="nav-btn" data-page="architecture">Architecture</button>
+    <button class="nav-btn" data-page="detection">Detection</button>
+    <button class="nav-btn" data-page="analytics">Analytics</button>
+    <button class="nav-btn" data-page="about">About</button>
+  </div>
+  <div class="nav-right">
+    <div class="live-dot"></div>
+    <span id="liveLabel">Live Monitoring</span>
+  </div>
+</nav>
+
+<!-- ── PAGES ───────────────────────────────────────────────────── -->
+<main>
+
+<!-- DASHBOARD -->
+<section id="page-dashboard" class="page active">
+
+  <div class="hero">
+    <div class="hero-body">
+      <div class="tag">● FINAL YEAR PROJECT · 2024–25</div>
+      <h1>Transfer Learning <span>Intrusion Detection</span><br>for Wireless Sensor Networks</h1>
+      <p class="hero-desc">Cross-domain threat intelligence using pre-trained deep neural networks fine-tuned on WSN traffic. Detects zero-day attacks by transferring knowledge from IoT, SCADA, and cloud domains.</p>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hval" id="hAccuracy">98.7%</div><div class="hlbl">Detection Rate</div></div>
+        <div class="hstat"><div class="hval">0.3%</div><div class="hlbl">False Positive</div></div>
+        <div class="hstat"><div class="hval">4</div><div class="hlbl">Source Domains</div></div>
+        <div class="hstat"><div class="hval" id="hNodes">247</div><div class="hlbl">Active Nodes</div></div>
+        <div class="hstat"><div class="hval">12ms</div><div class="hlbl">Avg Latency</div></div>
+      </div>
+    </div>
+    <div class="hero-ring">
+      <svg viewBox="0 0 130 130" class="ring-svg">
+        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient></defs>
+        <circle cx="65" cy="65" r="56" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="9"/>
+        <circle cx="65" cy="65" r="56" fill="none" stroke="url(#rg)" stroke-width="9"
+          stroke-dasharray="352" stroke-dashoffset="5" stroke-linecap="round" transform="rotate(-90 65 65)"/>
+      </svg>
+      <div class="ring-val"><span class="ring-pct">98.7%</span><span class="ring-lbl">Accuracy</span></div>
+    </div>
+  </div>
+
+  <!-- Alert banner populated by JS -->
+  <div id="alertBanner" class="alert-banner hidden"></div>
+
+  <!-- Metric row -->
+  <div class="grid g4 mb1">
+    <div class="card metric blue"><div class="card-title">Active Nodes</div><div class="card-val blue" id="mNodes">—</div><div class="card-sub" id="mNodesSub">Loading…</div></div>
+    <div class="card metric red"><div class="card-title">Threats Blocked</div><div class="card-val red" id="mThreats">—</div><div class="card-sub">Session total</div></div>
+    <div class="card metric green"><div class="card-title">Clean Traffic</div><div class="card-val green" id="mClean">—</div><div class="card-sub">Last 100 packets</div></div>
+    <div class="card metric orange"><div class="card-title">F1 Score</div><div class="card-val orange">0.985</div><div class="card-sub">AUC-ROC: 0.996</div></div>
+  </div>
+
+  <!-- Map + Timeline -->
+  <div class="grid g12 mb1">
+    <div class="card">
+      <div class="card-header"><span class="card-title">WSN Network Map</span><span class="badge blue" id="nodesBadge">Loading…</span></div>
+      <canvas id="wsnCanvas" width="460" height="280" style="width:100%;border-radius:8px;"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Live Attack Timeline</span><span class="badge red pulse-badge">● LIVE</span></div>
+      <div class="chart-wrap"><canvas id="timelineChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Live log + donut -->
+  <div class="grid g21">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Live Packet Log</span><span class="badge green">Stream Active</span></div>
+      <div class="live-log" id="liveLog"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Attack Distribution</span></div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="donutChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="page-architecture" class="page">
+  <div class="hero compact">
+    <div class="hero-body">
+      <div class="tag">● SYSTEM DESIGN</div>
+      <h1>Transfer Learning <span>Architecture</span></h1>
+      <p class="hero-desc">Multi-stage knowledge transfer: feature extraction from source domains → domain-adversarial adaptation → fine-tuning on WSN dataset → real-time inference.</p>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="card mb1">
+    <div class="card-title mb05">Transfer Learning Pipeline</div>
+    <div class="pipeline" id="pipeline"></div>
+  </div>
+
+  <div class="grid g3 mb1">
+    <!-- Source domains -->
+    <div class="card">
+      <div class="card-title mb05">Source Domains</div>
+      <div id="domainCards"></div>
+    </div>
+    <!-- NN Layers -->
+    <div class="card">
+      <div class="card-title mb05">Neural Network Layers</div>
+      <div id="layerBars"></div>
+      <div class="info-box mt1">
+        <div class="info-label">Transfer Strategy</div>
+        <div class="info-val">Domain-Adversarial Fine-Tuning</div>
+        <div class="info-desc">Gradual unfreezing · Discriminative LR (1e-4 → 1e-5)</div>
+      </div>
+    </div>
+    <!-- Hyperparams -->
+    <div class="card">
+      <div class="card-title mb05">Hyperparameters</div>
+      <table class="param-table" id="paramTable"></table>
+    </div>
+  </div>
+
+  <!-- Baseline comparison -->
+  <div class="card">
+    <div class="card-header"><span class="card-title">Baseline Comparison</span><span class="badge green">TL-IDS outperforms all</span></div>
+    <table class="data-table" id="baselineTable">
+      <thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1 Score</th><th>AUC-ROC</th><th>Train Time</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DETECTION -->
+<section id="page-detection" class="page">
+  <div class="hero compact">
+    <div class="hero-body">
+      <div class="tag">● THREAT DETECTION ENGINE</div>
+      <h1>Real-Time <span>Attack Classification</span></h1>
+      <p class="hero-desc">6-class WSN intrusion classifier with SHAP explainability. Each packet is scored with a full probability vector and routed to automated response.</p>
+    </div>
+  </div>
+
+  <div class="grid g21 mb1">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Recent Detections</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="badge red" id="attackCountBadge">0 Attacks</span>
+          <button class="btn-sm" id="refreshAttacks">↻ Refresh</button>
+        </div>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Time</th><th>Node</th><th>Zone</th><th>Attack Type</th><th>Conf.</th><th>Action</th></tr></thead>
+        <tbody id="attackTableBody"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title mb05">Confusion Matrix</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Rows: Actual · Cols: Predicted</div>
+      <div id="cmContainer"></div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px;" id="cmLegend"></div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title mb05">SHAP Feature Importances</div>
+      <div id="featureBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title mb05">Per-Class Performance</div>
+      <table class="data-table" id="perClassTable">
+        <thead><tr><th>Attack</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="info-box mt1">
+        <div class="info-label">Cross-Domain Transfer Gain</div>
+        <div class="info-val green">+7.5% accuracy</div>
+        <div class="info-desc">vs. training from scratch on WSN data only</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYTICS -->
+<section id="page-analytics" class="page">
+  <div class="hero compact">
+    <div class="hero-body">
+      <div class="tag">● PERFORMANCE ANALYTICS</div>
+      <h1>Model <span>Performance</span> Metrics</h1>
+      <p class="hero-desc">Training curves, confusion analysis, ROC performance and cross-validation across source domains and WSN fine-tuning epochs.</p>
+    </div>
+  </div>
+
+  <div class="grid g4 mb1">
+    <div class="card metric blue"><div class="card-title">K-Fold CV</div><div class="card-val blue">97.9%</div><div class="card-sub">10-Fold · σ=0.003</div></div>
+    <div class="card metric green"><div class="card-title">AUC-ROC</div><div class="card-val green">0.996</div><div class="card-sub">Macro-average</div></div>
+    <div class="card metric purple"><div class="card-title">MCC</div><div class="card-val purple">0.981</div><div class="card-sub">Matthews Correlation</div></div>
+    <div class="card metric orange"><div class="card-title">False Neg. Rate</div><div class="card-val orange">0.6%</div><div class="card-sub">Missed detections</div></div>
+  </div>
+
+  <div class="grid g2 mb1">
+    <div class="card"><div class="card-header"><span class="card-title">Training vs Validation Accuracy</span></div><div class="chart-wrap"><canvas id="accChart"></canvas></div></div>
+    <div class="card"><div class="card-header"><span class="card-title">Training vs Validation Loss</span></div><div class="chart-wrap"><canvas id="lossChart"></canvas></div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card"><div class="card-header"><span class="card-title">Hourly Attack Timeline (24h)</span></div><div class="chart-wrap"><canvas id="hourlyChart"></canvas></div></div>
+    <div class="card">
+      <div class="card-title mb05">Domain Transfer Summary</div>
+      <table class="data-table" id="domainSummary">
+        <thead><tr><th>Source Dataset</th><th>Samples</th><th>Features</th><th>Attack Types</th><th>Transfer ΔAcc</th></tr></thead>
+        <tbody>
+          <tr><td>NSL-KDD</td><td class="mono">125,973</td><td class="mono">41</td><td>DoS, Probe, R2L, U2R</td><td class="mono green">+4.2%</td></tr>
+          <tr><td>UNSW-NB15</td><td class="mono">2,540,044</td><td class="mono">49</td><td>Exploits, Backdoors, Fuzzers</td><td class="mono green">+2.8%</td></tr>
+          <tr><td>IoT-23</td><td class="mono">1,300,000</td><td class="mono">23</td><td>Botnet, DDoS, C&C</td><td class="mono green">+3.1%</td></tr>
+          <tr><td>SCADA</td><td class="mono">82,000</td><td class="mono">16</td><td>FDI, Replay, MiTM</td><td class="mono green">+2.4%</td></tr>
+          <tr style="border-top:1px solid var(--border2);"><td><strong>WSN (target)</strong></td><td class="mono">48,000</td><td class="mono">41</td><td>Sinkhole, Blackhole, Wormhole…</td><td class="mono">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="page-about" class="page">
+  <div class="hero compact">
+    <div class="hero-body">
+      <div class="tag">● PROJECT INFORMATION</div>
+      <h1>About <span>TL-IDS</span></h1>
+      <p class="hero-desc">Final Year B.Tech Project · Department of Computer Science & Engineering · 2024–25</p>
+    </div>
+  </div>
+
+  <div class="grid g2 mb1">
+    <div class="card">
+      <div class="card-title mb05">Project Overview</div>
+      <p class="body-text">Wireless Sensor Networks (WSN) are highly vulnerable to cyber attacks due to constrained resources, open wireless channels, and absence of dedicated security hardware.</p>
+      <br>
+      <p class="body-text">This project proposes a <strong>Transfer Learning-based Intrusion Detection System (TL-IDS)</strong> that overcomes the labeled data shortage in WSN by transferring knowledge from four well-studied network intrusion datasets.</p>
+      <br>
+      <p class="body-text">Using domain-adversarial adaptation and gradual fine-tuning, the model detects 6 WSN attack categories with 98.7% accuracy, 0.985 F1-score, and only 0.3% false positives — running at 12ms inference latency on embedded gateway hardware.</p>
+    </div>
+    <div class="card">
+      <div class="card-title mb05">Research Contributions</div>
+      <div class="contrib" id="contribList"></div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title mb05">Technology Stack</div>
+      <div class="tag-cloud" id="techStack"></div>
+    </div>
+    <div class="card">
+      <div class="card-title mb05">Key References</div>
+      <ol class="refs" id="refList"></ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/static/js/api.js"></script>
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/wsn_map.js"></script>
+<script src="/static/js/ui.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
